@@ -65,7 +65,17 @@ If queue wait ramps quickly during bursts:
 - Add stale-item TTL for superseded chatter.
 - Consider prefetching next synth while current audio plays.
 
-## 8) Policy checks
+## 8) Concurrency/race stress check
+Run:
+```bash
+skills/local-tts-queue/scripts/race-stress.sh
+```
+Expected output includes:
+- `config_json_ok`
+- `metadata_race_ok`
+- `race_stress_ok`
+
+## 9) Policy checks
 For protected users (Brad/RECTANGL):
 - Use local speaker path only.
 - Do not emit Discord TTS attachments as fallback.
