@@ -29,7 +29,8 @@ Use this skill to keep local speech fast, reliable, and policy-compliant by trea
 - Benchmark harness: `scripts/benchmark-local-tts-queue.sh`
   - Fast foreground benchmark: `scripts/benchmark-local-tts-queue.sh 5`
   - Full diagnostic benchmark: `scripts/benchmark-local-tts-queue.sh 5 --status both --output full`
-- First-run interactive setup: `skills/local-tts-queue/scripts/setup-first-run.sh`
+- First-run interactive setup: `skills/local-tts-queue/scripts/setup-first-run.sh` (shell wrapper)
+- Cross-platform first-run CLI: `skills/local-tts-queue/scripts/setup_first_run.py`
 - Backend detection (OS-aware): `skills/local-tts-queue/scripts/backend-detect.sh`
 - ElevenLabs capability preflight: `skills/local-tts-queue/scripts/elevenlabs-preflight.sh` (includes short 429 retry/backoff for SFX probe)
 - Earcon library manager (durable categories/cache): `skills/local-tts-queue/scripts/earcon-library.sh`
