@@ -1,0 +1,29 @@
+{
+  "name": "autonoannounce",
+  "entrypoint": "skills/autonoannounce/SKILL.md",
+  "description": "Autonoannounce local queued TTS skill with durable earcons, cross-platform playback selection, and resilient ElevenLabs preflight/retry behavior.",
+  "requiredEnv": [
+    "ELEVENLABS_API_KEY"
+  ],
+  "optionalEnv": [
+    "ELEVENLABS_VOICE_ID",
+    "ELEVENLABS_MODEL_ID"
+  ],
+  "networkDomains": [
+    "api.elevenlabs.io"
+  ],
+  "localWrites": [
+    "config/tts-queue.json",
+    ".openclaw/*",
+    "audio/earcons/*"
+  ],
+  "runtimeTools": [
+    "python3",
+    "curl",
+    "mpv|ffplay|afplay|paplay|powershell"
+  ],
+  "notes": [
+    "Registry import may still require mapping fields in ClawHub UI depending on importer behavior.",
+    "Canonical skill instructions remain in skills/autonoannounce/SKILL.md"
+  ]
+}

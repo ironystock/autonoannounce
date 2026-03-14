@@ -89,5 +89,9 @@ skills/autonoannounce/scripts/race-stress.sh
 ## Security review reference
 - See `docs/SECURITY.md` for credential handling, transmission model, and safeguards.
 
+## ClawHub import reference
+- See `docs/CLAWHUB-IMPORT.md` for field mapping guidance.
+- Machine-readable metadata helper: `.clawhub/registry-metadata.json`
+
 ## License
 MIT
