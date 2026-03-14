@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 CFG="$ROOT/config/tts-queue.json"
 EARCON_DIR="$ROOT/audio/earcons"
+LOCK_DIR="$ROOT/.openclaw/locks"
 
 usage() {
   cat <<'EOF'
@@ -24,7 +25,7 @@ EOF
 cmd="$1"; shift
 
 [[ -f "$CFG" ]] || { echo "missing config: $CFG" >&2; exit 1; }
-mkdir -p "$EARCON_DIR" "$ROOT/.openclaw"
+mkdir -p "$EARCON_DIR" "$ROOT/.openclaw" "$LOCK_DIR"
 
 read_cfg() {
   python3 - "$CFG" <<'PY'
@@ -49,6 +50,42 @@ fi
 
 ensure_lib() {
   [[ -f "$LIB_PATH" ]] || echo '{"version":1,"earcons":{}}' > "$LIB_PATH"
+}
+
+atomic_update_files() {
+  local cfg="$1" lib="$2" category="$3" out="$4" prompt="$5" model="$6" duration="$7" sha="$8" created="$9"
+  python3 - "$cfg" "$lib" "$category" "$out" "$prompt" "$model" "$duration" "$sha" "$created" <<'PY'
+import json,sys,os,tempfile
+cfgp,libp,cat,path,prompt,model,dur,sha,created=sys.argv[1:]
+
+cfg=json.load(open(cfgp))
+ear=cfg.setdefault('earcons',{})
+ear.setdefault('categories',{})
+ear['categories'][cat]=path
+
+lib=json.load(open(libp))
+lib.setdefault('version',1)
+lib.setdefault('earcons',{})
+lib['earcons'][cat]={
+  'path':path,
+  'prompt':prompt,
+  'model':model,
+  'duration_seconds':float(dur),
+  'sha256':sha,
+  'created_at':created
+}
+
+def awrite(path,obj):
+    d=os.path.dirname(path)
+    fd,tmp=tempfile.mkstemp(dir=d,prefix='.tmp-',text=True)
+    with os.fdopen(fd,'w') as f:
+        json.dump(obj,f,indent=2)
+        f.write('\n')
+    os.replace(tmp,path)
+
+awrite(cfgp,cfg)
+awrite(libp,lib)
+PY
 }
 
 ensure_lib
@@ -93,6 +130,10 @@ PY
       esac
     fi
 
+    cat_lock="$LOCK_DIR/earcon-category-${category}.lock"
+    exec 7>"$cat_lock"
+    flock -w 20 7 || { echo "lock timeout: $cat_lock" >&2; exit 1; }
+
     ts=$(date +%s)
     out="$EARCON_DIR/${category}-${ts}.mp3"
     code=$(curl -sS -o "$out" -w '%{http_code}' -X POST "https://api.elevenlabs.io/v1/sound-generation" \
@@ -110,28 +151,11 @@ PY
     model="${ELEVENLABS_MODEL_ID:-eleven_text_to_sound_v2}"
     created=$(date -Iseconds)
 
-    python3 - "$CFG" "$LIB_PATH" "$category" "$out" "$prompt" "$model" "$duration" "$sha" "$created" <<'PY'
-import json,sys
-cfgp,libp,cat,path,prompt,model,dur,sha,created=sys.argv[1:]
-cfg=json.load(open(cfgp))
-ear=cfg.setdefault('earcons',{})
-ear.setdefault('categories',{})
-ear['categories'][cat]=path
-json.dump(cfg,open(cfgp,'w'),indent=2)
+    lib_lock="$LOCK_DIR/earcon-library.lock"
+    exec 8>"$lib_lock"
+    flock -w 20 8 || { echo "lock timeout: $lib_lock" >&2; exit 1; }
+    atomic_update_files "$CFG" "$LIB_PATH" "$category" "$out" "$prompt" "$model" "$duration" "$sha" "$created"
 
-lib=json.load(open(libp))
-lib.setdefault('version',1)
-lib.setdefault('earcons',{})
-lib['earcons'][cat]={
-  'path':path,
-  'prompt':prompt,
-  'model':model,
-  'duration_seconds':float(dur),
-  'sha256':sha,
-  'created_at':created
-}
-json.dump(lib,open(libp,'w'),indent=2)
-PY
     echo "generated $category -> $out"
     ;;
   *)

@@ -37,6 +37,7 @@ Use this skill to keep local speech fast, reliable, and policy-compliant by trea
 - Cross-platform playback runner: `skills/local-tts-queue/scripts/play-local-audio.sh`
 - Playback backend startup validator: `skills/local-tts-queue/scripts/playback-validate.sh`
 - v0.2 smoke tests: `skills/local-tts-queue/scripts/test-v0.2.sh`
+- Race/concurrency stress checks: `skills/local-tts-queue/scripts/race-stress.sh`
 
 ## References map
 - Runbook: `references/runbook.md`
