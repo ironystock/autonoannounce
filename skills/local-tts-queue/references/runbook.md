@@ -11,7 +11,9 @@ Quick checks:
 ```bash
 printenv ELEVENLABS_API_KEY | wc -c
 printenv ELEVENLABS_VOICE_ID | wc -c
+skills/local-tts-queue/scripts/playback-probe.sh auto
 skills/local-tts-queue/scripts/playback-validate.sh
+skills/local-tts-queue/scripts/playback-test.sh
 ```
 
 ## 2) Run capability preflight (ElevenLabs + SFX)

@@ -5,8 +5,8 @@ ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 SCRIPTS="$ROOT/skills/local-tts-queue/scripts"
 
 echo "[test] setup-first-run dry-run"
-json=$($SCRIPTS/setup-first-run.sh --noninteractive --dry-run --earcons y --style "test style" --backend auto --generate-starters n)
-echo "$json" | python3 -c 'import json,sys; j=json.load(sys.stdin); assert j["earcons"]["enabled"] is True; assert "playback" in j'
+json=$($SCRIPTS/setup-first-run.sh --noninteractive --dry-run --earcons y --style "test style" --backend auto --device "" --generate-starters n)
+echo "$json" | python3 -c 'import json,sys; j=json.load(sys.stdin); assert j["earcons"]["enabled"] is True; assert "playback" in j; assert "device" in j["playback"]'
 
 echo "[test] backend detect"
 backend=$($SCRIPTS/backend-detect.sh || true)
@@ -15,8 +15,11 @@ backend=$($SCRIPTS/backend-detect.sh || true)
 echo "[test] playback validate"
 $SCRIPTS/playback-validate.sh >/dev/null || true
 
+echo "[test] playback probe"
+$SCRIPTS/playback-probe.sh auto >/dev/null || true
+
 echo "[test] earcon cache reuse sanity"
-mkdir -p "$ROOT/.openclaw"
+mkdir -p "$ROOT/.openclaw" "$ROOT/config"
 cat > "$ROOT/config/tts-queue.json" <<EOF
 {
   "earcons": {

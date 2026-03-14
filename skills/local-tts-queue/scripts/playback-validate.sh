@@ -4,17 +4,23 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 CFG="$ROOT/config/tts-queue.json"
 BACKEND="${1:-}"
+DEVICE="${2:-}"
 
-if [[ -z "$BACKEND" && -f "$CFG" ]]; then
-  BACKEND=$(python3 - "$CFG" <<'PY'
+if [[ -f "$CFG" && ( -z "$BACKEND" || -z "$DEVICE" ) ]]; then
+  mapfile -t vals < <(python3 - "$CFG" <<'PY'
 import json,sys
 try:
   c=json.load(open(sys.argv[1]))
-  print(c.get('playback',{}).get('backend','auto'))
+  p=c.get('playback',{})
+  print(p.get('backend','auto'))
+  print(p.get('device',''))
 except Exception:
   print('auto')
+  print('')
 PY
 )
+  [[ -z "$BACKEND" ]] && BACKEND="${vals[0]:-auto}"
+  [[ -z "$DEVICE" ]] && DEVICE="${vals[1]:-}"
 fi
 
 if [[ -z "$BACKEND" || "$BACKEND" == "auto" ]]; then
@@ -45,8 +51,15 @@ case "$BACKEND" in
     ;;
 esac
 
+if $ok && [[ "$BACKEND" == "mpv" && -n "$DEVICE" ]]; then
+  if ! mpv --no-config --audio-device=help --idle=yes --force-window=no 2>&1 | awk '{print $1}' | tr -d ':' | grep -Fxq "$DEVICE"; then
+    ok=false
+    reason="configured_device_not_found"
+  fi
+fi
+
 cat <<EOF
-{"ok":$ok,"backend":"$BACKEND","reason":"$reason"}
+{"ok":$ok,"backend":"$BACKEND","device":"$DEVICE","reason":"$reason"}
 EOF
 
 $ok || exit 1
