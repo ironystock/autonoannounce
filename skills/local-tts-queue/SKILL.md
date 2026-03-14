@@ -29,6 +29,9 @@ Use this skill to keep local speech fast, reliable, and policy-compliant by trea
 - Benchmark harness: `scripts/benchmark-local-tts-queue.sh`
   - Fast foreground benchmark: `scripts/benchmark-local-tts-queue.sh 5`
   - Full diagnostic benchmark: `scripts/benchmark-local-tts-queue.sh 5 --status both --output full`
+- First-run interactive setup: `skills/local-tts-queue/scripts/setup-first-run.sh`
+- Backend detection (OS-aware): `skills/local-tts-queue/scripts/backend-detect.sh`
+- ElevenLabs capability preflight: `skills/local-tts-queue/scripts/elevenlabs-preflight.sh`
 
 ## References map
 - Runbook: `references/runbook.md`
