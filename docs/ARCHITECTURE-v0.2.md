@@ -1,4 +1,4 @@
-# local-tts-queue v0.2 architecture notes
+# autonoannounce v0.2 architecture notes
 
 ## Objectives
 - Add first-run interactive setup.

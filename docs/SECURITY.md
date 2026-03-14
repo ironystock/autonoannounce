@@ -1,4 +1,4 @@
-# Security and Data Flow (local-tts-queue)
+# Security and Data Flow (autonoannounce)
 
 This document is intended to make installation and credential handling explicit for security review.
 
@@ -42,5 +42,5 @@ No background sync or external exfiltration is performed by default.
 - Restrict API key scope to required capabilities.
 - Rotate keys periodically.
 - Validate setup with:
-  - `skills/local-tts-queue/scripts/test-v0.2.sh`
-  - `skills/local-tts-queue/scripts/elevenlabs-preflight.sh`
+  - `skills/autonoannounce/scripts/test-v0.2.sh`
+  - `skills/autonoannounce/scripts/elevenlabs-preflight.sh`

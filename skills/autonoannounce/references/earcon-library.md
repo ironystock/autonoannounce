@@ -12,16 +12,16 @@ Use `scripts/earcon-library.sh` to manage persistent earcons by category.
 ## Commands
 ```bash
 # Initialize library file
-skills/local-tts-queue/scripts/earcon-library.sh init
+skills/autonoannounce/scripts/earcon-library.sh init
 
 # List current category mappings
-skills/local-tts-queue/scripts/earcon-library.sh list
+skills/autonoannounce/scripts/earcon-library.sh list
 
 # Show categories without assigned files
-skills/local-tts-queue/scripts/earcon-library.sh missing
+skills/autonoannounce/scripts/earcon-library.sh missing
 
 # Generate/update one category via ElevenLabs SFX
-skills/local-tts-queue/scripts/earcon-library.sh generate important "arena horn with reverb" 2
+skills/autonoannounce/scripts/earcon-library.sh generate important "arena horn with reverb" 2
 ```
 
 ## Durability behavior

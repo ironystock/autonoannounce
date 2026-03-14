@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 BACKEND="${1:-auto}"
 
 if [[ "$BACKEND" == "auto" || -z "$BACKEND" ]]; then
-  BACKEND="$($ROOT/skills/local-tts-queue/scripts/backend-detect.sh || echo none)"
+  BACKEND="$($ROOT/skills/autonoannounce/scripts/backend-detect.sh || echo none)"
 fi
 
 list_mpv_devices() {

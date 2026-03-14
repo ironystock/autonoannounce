@@ -16,13 +16,13 @@ jobs:
 
       - name: Shell syntax checks
         run: |
-          bash -n skills/local-tts-queue/scripts/*.sh
+          bash -n skills/autonoannounce/scripts/*.sh
 
       - name: v0.2 smoke tests
         run: |
-          chmod +x skills/local-tts-queue/scripts/*.sh
-          skills/local-tts-queue/scripts/test-v0.2.sh
+          chmod +x skills/autonoannounce/scripts/*.sh
+          skills/autonoannounce/scripts/test-v0.2.sh
 
       - name: race stress harness
         run: |
-          skills/local-tts-queue/scripts/race-stress.sh
+          skills/autonoannounce/scripts/race-stress.sh

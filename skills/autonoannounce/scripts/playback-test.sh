@@ -25,6 +25,6 @@ with wave.open(path,'w') as w:
 PY
 fi
 
-"$ROOT/skills/local-tts-queue/scripts/play-local-audio.sh" "$TMP" "$@"
+"$ROOT/skills/autonoannounce/scripts/play-local-audio.sh" "$TMP" "$@"
 
 echo "If you heard the tone, playback path is good."

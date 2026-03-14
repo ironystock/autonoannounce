@@ -14,7 +14,7 @@
 ## Measurement method
 Use:
 ```bash
-/home/brad/.openclaw/workspace/skills/local-tts-queue/scripts/benchmark-local-tts-queue.sh
+/home/brad/.openclaw/workspace/skills/autonoannounce/scripts/benchmark-autonoannounce.sh
 ```
 
 Collect:

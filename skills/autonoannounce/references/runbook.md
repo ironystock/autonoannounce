@@ -11,19 +11,19 @@ Quick checks:
 ```bash
 printenv ELEVENLABS_API_KEY | wc -c
 printenv ELEVENLABS_VOICE_ID | wc -c
-skills/local-tts-queue/scripts/playback-probe.sh auto
-skills/local-tts-queue/scripts/playback-validate.sh
-skills/local-tts-queue/scripts/playback-test.sh
+skills/autonoannounce/scripts/playback-probe.sh auto
+skills/autonoannounce/scripts/playback-validate.sh
+skills/autonoannounce/scripts/playback-test.sh
 ```
 
 ## 2) Run capability preflight (ElevenLabs + SFX)
 ```bash
-skills/local-tts-queue/scripts/elevenlabs-preflight.sh
+skills/autonoannounce/scripts/elevenlabs-preflight.sh
 ```
 Optional retry tuning:
 ```bash
 SFX_MAX_RETRIES=3 SFX_BASE_DELAY_MS=250 SFX_MAX_DELAY_MS=2000 \
-  skills/local-tts-queue/scripts/elevenlabs-preflight.sh
+  skills/autonoannounce/scripts/elevenlabs-preflight.sh
 ```
 Interpretation:
 - `sfx_status="ok"` → SFX generation available now.
@@ -51,14 +51,14 @@ Common failures:
 - Queue lock stale: queue appears stuck
 
 Actions:
-1. Run `skills/local-tts-queue/scripts/playback-validate.sh`.
+1. Run `skills/autonoannounce/scripts/playback-validate.sh`.
 2. Fix missing dependency or choose a different backend in setup/config.
 3. Restart daemon/worker.
 4. Re-enqueue one test item.
 5. Confirm queue drains.
 
 ## 6) Playback contract
-Use `skills/local-tts-queue/scripts/play-local-audio.sh <file>` as the unified local player interface.
+Use `skills/autonoannounce/scripts/play-local-audio.sh <file>` as the unified local player interface.
 
 Contract:
 - Input: readable local audio file path.
@@ -75,7 +75,7 @@ If queue wait ramps quickly during bursts:
 ## 8) Concurrency/race stress check
 Run:
 ```bash
-skills/local-tts-queue/scripts/race-stress.sh
+skills/autonoannounce/scripts/race-stress.sh
 ```
 Expected output includes:
 - `config_json_ok`

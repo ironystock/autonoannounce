@@ -24,7 +24,7 @@ PY
 fi
 
 if [[ -z "$BACKEND" || "$BACKEND" == "auto" ]]; then
-  BACKEND="$($ROOT/skills/local-tts-queue/scripts/backend-detect.sh || true)"
+  BACKEND="$($ROOT/skills/autonoannounce/scripts/backend-detect.sh || true)"
 fi
 
 ok=true
