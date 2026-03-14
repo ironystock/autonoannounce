@@ -20,10 +20,17 @@ skills/local-tts-queue/scripts/playback-test.sh
 ```bash
 skills/local-tts-queue/scripts/elevenlabs-preflight.sh
 ```
+Optional retry tuning:
+```bash
+SFX_MAX_RETRIES=3 SFX_BASE_DELAY_MS=250 SFX_MAX_DELAY_MS=2000 \
+  skills/local-tts-queue/scripts/elevenlabs-preflight.sh
+```
 Interpretation:
 - `sfx_status="ok"` → SFX generation available now.
-- `sfx_status="rate_limited"` → retry later; script already retries short backoff on 429.
+- `sfx_status="rate_limited"` → retries exhausted under 429 pressure; fallback to cached/local earcons.
 - `sfx_status="forbidden_or_missing_permission"` → key lacks permission (or access denied).
+- `sfx_status="upstream_error"` → transient server-side fault; keep local fallback and retry later.
+
 
 ## 3) Validate queue plumbing
 ```bash

@@ -39,16 +39,17 @@ print('config_json_ok')
 PY
 
 # Concurrency test 2: concurrent category metadata updates (no API calls)
-python3 - <<'PY'
+ROOT_DIR="$ROOT" python3 - <<'PY'
 import json,threading,time,os,tempfile
-cfg_path=os.path.expanduser('/home/brad/.openclaw/workspace/autonoannounce/config/tts-queue.json')
-lib_path=os.path.expanduser('/home/brad/.openclaw/workspace/autonoannounce/.openclaw/earcon-library.json')
+root=os.environ['ROOT_DIR']
+cfg_path=os.path.join(root,'config','tts-queue.json')
+lib_path=os.path.join(root,'.openclaw','earcon-library.json')
 os.makedirs(os.path.dirname(lib_path), exist_ok=True)
 if not os.path.exists(lib_path):
     json.dump({'version':1,'earcons':{}}, open(lib_path,'w'))
 
 cats=['start','end','update','important','error']
-lock='/home/brad/.openclaw/workspace/autonoannounce/.openclaw/locks/earcon-library.lock'
+lock=os.path.join(root,'.openclaw','locks','earcon-library.lock')
 os.makedirs(os.path.dirname(lock), exist_ok=True)
 
 import fcntl

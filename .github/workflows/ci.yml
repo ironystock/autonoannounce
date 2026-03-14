@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  lint-shell:
+  lint-and-smoke:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -13,3 +13,16 @@ jobs:
         run: |
           test -f README.md
           test -f LICENSE
+
+      - name: Shell syntax checks
+        run: |
+          bash -n skills/local-tts-queue/scripts/*.sh
+
+      - name: v0.2 smoke tests
+        run: |
+          chmod +x skills/local-tts-queue/scripts/*.sh
+          skills/local-tts-queue/scripts/test-v0.2.sh
+
+      - name: race stress harness
+        run: |
+          skills/local-tts-queue/scripts/race-stress.sh
