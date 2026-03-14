@@ -1,6 +1,6 @@
 ---
-name: local-tts-queue
-description: Build, operate, and troubleshoot local speaker text-to-speech using the queued pipeline (enqueue to worker to ElevenLabs to mpv). Use when creating or improving low-latency fire-and-forget TTS flows, tuning burst behavior, validating queue performance, enforcing local-only speech policy, or debugging queue/worker playback failures.
+name: autonoannounce
+description: Build, operate, and troubleshoot Autonoannounce local speaker text-to-speech using the queued pipeline (enqueue to worker to ElevenLabs to playback backend). Use when creating or improving low-latency fire-and-forget TTS flows, tuning burst behavior, validating queue performance, enforcing local-only speech policy, or debugging queue/worker playback failures.
 ---
 
 # Local TTS Queue
@@ -12,7 +12,7 @@ Use this skill to keep local speech fast, reliable, and policy-compliant by trea
 1. Confirm queue health with `scripts/tts-queue-status.sh`.
 2. Enqueue speech with `scripts/speak-local-queued.sh "text"`.
 3. If audio does not play, inspect worker logs and runbook steps in `references/runbook.md`.
-4. For latency tuning, run `scripts/benchmark-local-tts-queue.sh` and compare against SLOs in `references/perf-slos.md`.
+4. For latency tuning, run `scripts/benchmark-autonoannounce.sh` and compare against SLOs in `references/perf-slos.md`.
 
 ## Operating rules
 - Keep the producer path non-blocking: enqueue then return immediately.
@@ -26,20 +26,20 @@ Use this skill to keep local speech fast, reliable, and policy-compliant by trea
 - Worker (foreground): `scripts/tts-queue-worker.sh`
 - Worker daemon: `scripts/tts-queue-daemon.sh`
 - Status: `scripts/tts-queue-status.sh`
-- Benchmark harness: `scripts/benchmark-local-tts-queue.sh`
-  - Fast foreground benchmark: `scripts/benchmark-local-tts-queue.sh 5`
-  - Full diagnostic benchmark: `scripts/benchmark-local-tts-queue.sh 5 --status both --output full`
-- First-run interactive setup: `skills/local-tts-queue/scripts/setup-first-run.sh` (shell wrapper)
-- Cross-platform first-run CLI: `skills/local-tts-queue/scripts/setup_first_run.py`
-- Backend detection (OS-aware): `skills/local-tts-queue/scripts/backend-detect.sh`
-- ElevenLabs capability preflight: `skills/local-tts-queue/scripts/elevenlabs-preflight.sh` (includes short 429 retry/backoff for SFX probe)
-- Earcon library manager (durable categories/cache): `skills/local-tts-queue/scripts/earcon-library.sh`
-- Cross-platform playback runner: `skills/local-tts-queue/scripts/play-local-audio.sh`
-- Playback backend/device probe: `skills/local-tts-queue/scripts/playback-probe.sh`
-- Playback backend startup validator: `skills/local-tts-queue/scripts/playback-validate.sh`
-- Playback confirmation tone: `skills/local-tts-queue/scripts/playback-test.sh`
-- v0.2 smoke tests: `skills/local-tts-queue/scripts/test-v0.2.sh`
-- Race/concurrency stress checks: `skills/local-tts-queue/scripts/race-stress.sh`
+- Benchmark harness: `scripts/benchmark-autonoannounce.sh`
+  - Fast foreground benchmark: `scripts/benchmark-autonoannounce.sh 5`
+  - Full diagnostic benchmark: `scripts/benchmark-autonoannounce.sh 5 --status both --output full`
+- First-run interactive setup: `skills/autonoannounce/scripts/setup-first-run.sh` (shell wrapper)
+- Cross-platform first-run CLI: `skills/autonoannounce/scripts/setup_first_run.py`
+- Backend detection (OS-aware): `skills/autonoannounce/scripts/backend-detect.sh`
+- ElevenLabs capability preflight: `skills/autonoannounce/scripts/elevenlabs-preflight.sh` (includes short 429 retry/backoff for SFX probe)
+- Earcon library manager (durable categories/cache): `skills/autonoannounce/scripts/earcon-library.sh`
+- Cross-platform playback runner: `skills/autonoannounce/scripts/play-local-audio.sh`
+- Playback backend/device probe: `skills/autonoannounce/scripts/playback-probe.sh`
+- Playback backend startup validator: `skills/autonoannounce/scripts/playback-validate.sh`
+- Playback confirmation tone: `skills/autonoannounce/scripts/playback-test.sh`
+- v0.2 smoke tests: `skills/autonoannounce/scripts/test-v0.2.sh`
+- Race/concurrency stress checks: `skills/autonoannounce/scripts/race-stress.sh`
 
 ## References map
 - Runbook: `references/runbook.md`

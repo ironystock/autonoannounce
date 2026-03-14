@@ -11,11 +11,11 @@ OUTPUT_MODE="compact" # compact|full
 
 usage() {
   cat <<'EOF'
-Usage: benchmark-local-tts-queue.sh [iterations] [--status none|pre|post|both] [--output compact|full]
+Usage: benchmark-autonoannounce.sh [iterations] [--status none|pre|post|both] [--output compact|full]
 
 Examples:
-  benchmark-local-tts-queue.sh 5
-  benchmark-local-tts-queue.sh 5 --status both --output full
+  benchmark-autonoannounce.sh 5
+  benchmark-autonoannounce.sh 5 --status both --output full
 
 Defaults are optimized for foreground speed:
   --status none
@@ -53,7 +53,7 @@ done
 TEXT_PREFIX="benchmark-$(date +%s)"
 
 if [[ "$OUTPUT_MODE" == "full" ]]; then
-  echo "[bench] local-tts-queue iterations=$ITERATIONS status=$STATUS_MODE output=$OUTPUT_MODE"
+  echo "[bench] autonoannounce iterations=$ITERATIONS status=$STATUS_MODE output=$OUTPUT_MODE"
 fi
 
 run_status() {

@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
 CFG="$ROOT/config/tts-queue.json"
 LIB="$ROOT/.openclaw/earcon-library.json"
-SCRIPT_DIR="$ROOT/skills/local-tts-queue/scripts"
+SCRIPT_DIR="$ROOT/skills/autonoannounce/scripts"
 
 mkdir -p "$ROOT/.openclaw" "$ROOT/config"
 

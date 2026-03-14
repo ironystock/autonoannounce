@@ -4,7 +4,7 @@
 Ship a production-usable local TTS queue skill with measurable foreground speed, clear operations docs, and a friendly first-run setup flow.
 
 ## v0.1 (current baseline)
-1. Baseline skill in repo (`skills/local-tts-queue`) with benchmark harness and references.
+1. Baseline skill in repo (`skills/autonoannounce`) with benchmark harness and references.
 2. Fast foreground benchmark mode (default compact/no-status).
 3. Full diagnostic mode for deep troubleshooting.
 4. Runbook + config contract + perf SLO docs.

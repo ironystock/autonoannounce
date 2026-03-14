@@ -2,7 +2,7 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/../../.." && pwd)"
-SCRIPTS="$ROOT/skills/local-tts-queue/scripts"
+SCRIPTS="$ROOT/skills/autonoannounce/scripts"
 
 echo "[test] setup-first-run dry-run (shell wrapper)"
 json=$($SCRIPTS/setup-first-run.sh --noninteractive --dry-run --earcons y --style "test style" --backend auto --device "" --generate-starters n)

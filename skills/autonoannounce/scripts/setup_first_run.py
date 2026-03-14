@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 CFG = ROOT / "config" / "tts-queue.json"
-SCRIPTS = ROOT / "skills" / "local-tts-queue" / "scripts"
+SCRIPTS = ROOT / "skills" / "autonoannounce" / "scripts"
 
 
 def detect_backend() -> str:
@@ -49,7 +49,7 @@ def atomic_write_json(path: Path, data: dict):
 
 
 def main():
-    p = argparse.ArgumentParser(description="local-tts-queue first run setup")
+    p = argparse.ArgumentParser(description="autonoannounce first run setup")
     p.add_argument("--noninteractive", action="store_true")
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--earcons", choices=["y", "n"], default=None)
@@ -71,7 +71,7 @@ def main():
     run_test = args.run_playback_test
 
     if not args.noninteractive:
-        print("== local-tts-queue first run setup (python) ==")
+        print("== autonoannounce first run setup (python) ==")
         earcons = earcons or prompt("Enable earcons? (y/n)", "y")
         style = style or prompt("Earcon style direction", "subtle chime")
         if not voice_id:
@@ -135,7 +135,7 @@ def main():
 
     atomic_write_json(CFG, cfg)
     print(f"Wrote {CFG}")
-    print("Next: run skills/local-tts-queue/scripts/elevenlabs-preflight.sh")
+    print("Next: run skills/autonoannounce/scripts/elevenlabs-preflight.sh")
 
     if cfg["earcons"]["enabled"] and generate and generate.lower().startswith("y"):
         gen_script = SCRIPTS / "earcon-library.sh"

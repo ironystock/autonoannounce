@@ -43,7 +43,7 @@ PY
 fi
 
 if [[ -z "$BACKEND" || "$BACKEND" == "auto" ]]; then
-  BACKEND="$($ROOT/skills/local-tts-queue/scripts/backend-detect.sh || echo none)"
+  BACKEND="$($ROOT/skills/autonoannounce/scripts/backend-detect.sh || echo none)"
 fi
 
 case "$BACKEND" in
