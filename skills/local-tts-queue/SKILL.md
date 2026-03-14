@@ -32,12 +32,14 @@ Use this skill to keep local speech fast, reliable, and policy-compliant by trea
 - First-run interactive setup: `skills/local-tts-queue/scripts/setup-first-run.sh`
 - Backend detection (OS-aware): `skills/local-tts-queue/scripts/backend-detect.sh`
 - ElevenLabs capability preflight: `skills/local-tts-queue/scripts/elevenlabs-preflight.sh`
+- Earcon library manager (durable categories/cache): `skills/local-tts-queue/scripts/earcon-library.sh`
 
 ## References map
 - Runbook: `references/runbook.md`
 - Config contract: `references/config-contract.md`
 - Performance SLOs and interpretation: `references/perf-slos.md`
 - Foreground-latency optimization: `references/front-path-optimization.md`
+- Durable earcon categories and cache: `references/earcon-library.md`
 
 ## Execution checklist
 - Verify prerequisites (`ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID`, `mpv`).

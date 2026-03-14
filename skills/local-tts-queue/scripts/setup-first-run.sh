@@ -39,11 +39,11 @@ cat > "$CFG" <<EOF
     "enabled": $([[ "$earcons" =~ ^[Yy]$ ]] && echo true || echo false),
     "style": "${style}",
     "categories": {
-      "start": "$EARCON_DIR/start.mp3",
-      "end": "$EARCON_DIR/end.mp3",
-      "update": "$EARCON_DIR/update.mp3",
-      "important": "$EARCON_DIR/important.mp3",
-      "error": "$EARCON_DIR/error.mp3"
+      "start": "",
+      "end": "",
+      "update": "",
+      "important": "",
+      "error": ""
     },
     "libraryPath": "$ROOT/.openclaw/earcon-library.json"
   },
@@ -55,3 +55,14 @@ EOF
 
 echo "Wrote $CFG"
 echo "Next: run skills/local-tts-queue/scripts/elevenlabs-preflight.sh"
+
+if [[ "$earcons" =~ ^[Yy]$ ]]; then
+  read -r -p "Generate starter earcons now? (y/n) [y]: " gen
+  gen=${gen:-y}
+  if [[ "$gen" =~ ^[Yy]$ ]]; then
+    for cat in start end update important error; do
+      "$ROOT/skills/local-tts-queue/scripts/earcon-library.sh" generate "$cat" "${style} ${cat} notification sound" 1 || true
+    done
+    echo "Starter earcons generated (where API/key permits)."
+  fi
+fi
