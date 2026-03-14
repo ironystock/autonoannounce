@@ -3,49 +3,67 @@
 ## 1) Validate prerequisites
 - Environment:
   - `ELEVENLABS_API_KEY`
-  - `ELEVENLABS_VOICE_ID`
+  - `ELEVENLABS_VOICE_ID` (recommended)
 - Runtime:
-  - `mpv` installed and executable
+  - local playback backend available (`mpv`, `afplay`, etc.)
 
 Quick checks:
 ```bash
 printenv ELEVENLABS_API_KEY | wc -c
 printenv ELEVENLABS_VOICE_ID | wc -c
-command -v mpv
+skills/local-tts-queue/scripts/playback-validate.sh
 ```
 
-## 2) Validate queue plumbing
+## 2) Run capability preflight (ElevenLabs + SFX)
+```bash
+skills/local-tts-queue/scripts/elevenlabs-preflight.sh
+```
+Interpretation:
+- `sfx_status="ok"` → SFX generation available now.
+- `sfx_status="rate_limited"` → retry later; script already retries short backoff on 429.
+- `sfx_status="forbidden_or_missing_permission"` → key lacks permission (or access denied).
+
+## 3) Validate queue plumbing
 ```bash
 /home/brad/.openclaw/workspace/scripts/tts-queue-status.sh
 ```
 Confirm queue file, lock file, and log path exist and are writable.
 
-## 3) Smoke test end-to-end
+## 4) Smoke test end-to-end
 ```bash
 /home/brad/.openclaw/workspace/scripts/speak-local-queued.sh "Queue smoke test"
 ```
 Then monitor worker log for dequeue/synth/playback completion.
 
-## 4) Worker failure triage
+## 5) Worker/startup failure triage
 Common failures:
 - Missing env vars: worker cannot synthesize
-- Missing `mpv`: synth may succeed but playback fails
+- Invalid/missing playback backend: synth may succeed but local playback fails
 - Queue lock stale: queue appears stuck
 
 Actions:
-1. Fix missing dependency.
-2. Restart daemon/worker.
-3. Re-enqueue one test item.
-4. Confirm queue drains.
+1. Run `skills/local-tts-queue/scripts/playback-validate.sh`.
+2. Fix missing dependency or choose a different backend in setup/config.
+3. Restart daemon/worker.
+4. Re-enqueue one test item.
+5. Confirm queue drains.
 
-## 5) Burst latency triage
+## 6) Playback contract
+Use `skills/local-tts-queue/scripts/play-local-audio.sh <file>` as the unified local player interface.
+
+Contract:
+- Input: readable local audio file path.
+- Backend resolution order: explicit flag -> config playback.backend -> auto-detect.
+- Output: zero exit on successful playback, non-zero with reason on failure.
+
+## 7) Burst latency triage
 If queue wait ramps quickly during bursts:
 - Reduce or disable earcons in worker critical path.
 - Enable/adjust burst coalescing window.
 - Add stale-item TTL for superseded chatter.
 - Consider prefetching next synth while current audio plays.
 
-## 6) Policy checks
+## 8) Policy checks
 For protected users (Brad/RECTANGL):
 - Use local speaker path only.
 - Do not emit Discord TTS attachments as fallback.
