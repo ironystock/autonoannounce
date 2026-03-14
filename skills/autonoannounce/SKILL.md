@@ -1,6 +1,8 @@
 ---
 name: autonoannounce
 description: Build, operate, and troubleshoot Autonoannounce local speaker text-to-speech using the queued pipeline (enqueue to worker to ElevenLabs to playback backend). Requires ELEVENLABS_API_KEY for network synthesis, with optional ELEVENLABS_VOICE_ID and ELEVENLABS_MODEL_ID for voice/model selection. Writes local runtime state to config/tts-queue.json, .openclaw/*, and audio/earcons/*. Uses https://api.elevenlabs.io for synthesis/preflight calls. Use when creating or improving low-latency fire-and-forget TTS flows, tuning burst behavior, validating queue performance, enforcing local-only speech policy, or debugging queue/worker playback failures.
+homepage: https://github.com/ironystock/autonoannounce
+metadata: {"env":{"required":["ELEVENLABS_API_KEY"],"optional":["ELEVENLABS_VOICE_ID","ELEVENLABS_MODEL_ID"]},"openclaw":{"homepage":"https://github.com/ironystock/autonoannounce"}}
 ---
 
 # Local TTS Queue

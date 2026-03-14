@@ -9,8 +9,10 @@ Use this file as a quick reference during manual import.
 ## Suggested field mapping
 - Name: `autonoannounce`
 - Description: from `.clawhub/registry-metadata.json` or SKILL frontmatter
-- Required env vars: `ELEVENLABS_API_KEY`
-- Optional env vars: `ELEVENLABS_VOICE_ID`, `ELEVENLABS_MODEL_ID`
+- Env vars (preferred shape): `env.required` / `env.optional`
+  - Required env vars: `ELEVENLABS_API_KEY`
+  - Optional env vars: `ELEVENLABS_VOICE_ID`, `ELEVENLABS_MODEL_ID`
+- Legacy compatibility keys also present: `requiredEnv` / `optionalEnv`
 - Outbound domains: `api.elevenlabs.io`
 - Local writes:
   - `config/tts-queue.json`
