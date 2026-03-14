@@ -12,6 +12,9 @@ echo "[test] backend detect"
 backend=$($SCRIPTS/backend-detect.sh || true)
 [[ -n "$backend" ]] || { echo "backend empty" >&2; exit 1; }
 
+echo "[test] playback validate"
+$SCRIPTS/playback-validate.sh >/dev/null || true
+
 echo "[test] earcon cache reuse sanity"
 mkdir -p "$ROOT/.openclaw"
 cat > "$ROOT/config/tts-queue.json" <<EOF
